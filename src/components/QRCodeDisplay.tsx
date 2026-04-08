@@ -14,10 +14,23 @@ export default function QRCodeDisplay({ url, menuName }: Props) {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    QRCode.toCanvas(canvasRef.current, url, { width: 200, margin: 2 }, (err) => {
-      if (err) console.error(err);
-    });
-    QRCode.toDataURL(url, { width: 200, margin: 2 }).then(setDataUrl);
+    QRCode.toCanvas(
+      canvasRef.current,
+      url,
+      {
+        width: 180,
+        margin: 2,
+        color: { dark: "#EDE6D8", light: "#161210" },
+      },
+      (err) => {
+        if (err) console.error(err);
+      }
+    );
+    QRCode.toDataURL(url, {
+      width: 180,
+      margin: 2,
+      color: { dark: "#EDE6D8", light: "#161210" },
+    }).then(setDataUrl);
   }, [url]);
 
   function download() {
@@ -28,14 +41,16 @@ export default function QRCodeDisplay({ url, menuName }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-start gap-4">
-      <canvas ref={canvasRef} className="rounded-lg border border-gray-200" />
-      <div className="space-y-2">
-        <p className="text-sm text-gray-500 break-all">{url}</p>
+    <div className="flex items-start gap-6">
+      <div className="bg-lift border border-rim rounded-xl p-3 shrink-0">
+        <canvas ref={canvasRef} className="rounded-lg" />
+      </div>
+      <div className="flex flex-col gap-3 pt-1">
+        <p className="text-xs text-dust font-mono break-all leading-relaxed">{url}</p>
         <div className="flex gap-2">
           <button
             onClick={download}
-            className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors"
+            className="text-xs bg-lift border border-rim text-ash hover:border-ash hover:text-parchment px-3 py-1.5 rounded-lg transition-colors duration-150"
           >
             Download PNG
           </button>
@@ -43,9 +58,9 @@ export default function QRCodeDisplay({ url, menuName }: Props) {
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="text-sm bg-amber-100 text-amber-900 hover:bg-amber-200 px-3 py-1.5 rounded-lg transition-colors"
+            className="text-xs bg-gold text-ink font-semibold hover:bg-gilt px-3 py-1.5 rounded-lg transition-colors duration-150"
           >
-            Open Menu
+            Open Menu ↗
           </a>
         </div>
       </div>

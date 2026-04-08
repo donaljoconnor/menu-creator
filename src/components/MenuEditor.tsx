@@ -180,160 +180,191 @@ export default function MenuEditor({ initial, mode }: Props) {
       ? `${window.location.origin}/menu/${menu.slug}`
       : null;
 
+  const inputClass =
+    "w-full bg-ink border border-rim rounded-lg px-3 py-2.5 text-sm text-parchment placeholder:text-dust focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-colors duration-150";
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <div className="flex items-center gap-4 mb-8">
-        <button
-          onClick={() => router.push("/admin")}
-          className="text-gray-500 hover:text-gray-700 text-sm"
-        >
-          ← Back
-        </button>
-        <h1 className="text-2xl font-bold text-gray-900">
-          {mode === "new" ? "New Menu" : "Edit Menu"}
-        </h1>
-      </div>
-
-      {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-          {error}
-        </div>
-      )}
-
-      {/* Menu details */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 space-y-4">
-        <h2 className="font-semibold text-gray-700">Menu Details</h2>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Menu Name *
-          </label>
-          <input
-            type="text"
-            value={menu.name}
-            onChange={(e) => updateMenu({ name: e.target.value })}
-            placeholder="e.g. Dinner Menu"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Description
-          </label>
-          <input
-            type="text"
-            value={menu.description}
-            onChange={(e) => updateMenu({ description: e.target.value })}
-            placeholder="e.g. Available from 5pm - 10pm"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="space-y-4 mb-6">
-        {menu.categories.map((cat, catIdx) => (
-          <div
-            key={catIdx}
-            className="bg-white rounded-xl border border-gray-200 p-6"
+    <div className="min-h-screen bg-ink">
+      {/* Top bar */}
+      <div className="border-b border-rim">
+        <div className="max-w-3xl mx-auto px-6 py-5 flex items-center gap-4">
+          <button
+            onClick={() => router.push("/admin")}
+            className="text-ash hover:text-parchment text-sm transition-colors duration-150 flex items-center gap-1.5"
           >
-            <div className="flex items-center gap-3 mb-4">
+            ← Back
+          </button>
+          <span className="text-rim">|</span>
+          <h1
+            className="text-xl font-semibold text-parchment"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            {mode === "new" ? "New Menu" : "Edit Menu"}
+          </h1>
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-6 py-10">
+        {error && (
+          <div className="mb-6 p-4 bg-ember-dim border border-ember/30 text-ember rounded-lg text-sm flex items-start gap-2">
+            <span className="shrink-0">⚠</span>
+            {error}
+          </div>
+        )}
+
+        {/* Menu details */}
+        <section className="bg-canvas border border-rim rounded-xl p-6 mb-6 space-y-4">
+          <h2 className="text-xs font-semibold tracking-[0.15em] uppercase text-ash">
+            Menu Details
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-ash mb-1.5 tracking-wide">
+                Name <span className="text-gold">*</span>
+              </label>
               <input
                 type="text"
-                value={cat.name}
-                onChange={(e) => updateCategory(catIdx, { name: e.target.value })}
-                placeholder="Category name (e.g. Starters)"
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500"
+                value={menu.name}
+                onChange={(e) => updateMenu({ name: e.target.value })}
+                placeholder="e.g. Dinner Menu"
+                className={inputClass}
               />
-              <button
-                onClick={() => removeCategory(catIdx)}
-                className="text-red-400 hover:text-red-600 text-sm px-2"
-              >
-                Remove
-              </button>
             </div>
-
-            <div className="space-y-3">
-              {cat.items.map((item, itemIdx) => (
-                <div key={itemIdx} className="flex gap-2 items-start">
-                  <div className="flex-1 grid grid-cols-[1fr_1fr_auto] gap-2">
-                    <input
-                      type="text"
-                      value={item.name}
-                      onChange={(e) =>
-                        updateItem(catIdx, itemIdx, { name: e.target.value })
-                      }
-                      placeholder="Item name"
-                      className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                    <input
-                      type="text"
-                      value={item.description}
-                      onChange={(e) =>
-                        updateItem(catIdx, itemIdx, { description: e.target.value })
-                      }
-                      placeholder="Description (optional)"
-                      className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                    <input
-                      type="number"
-                      value={item.price}
-                      onChange={(e) =>
-                        updateItem(catIdx, itemIdx, { price: e.target.value })
-                      }
-                      placeholder="0.00"
-                      min="0"
-                      step="0.01"
-                      className="w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                  </div>
-                  <button
-                    onClick={() => removeItem(catIdx, itemIdx)}
-                    className="text-red-400 hover:text-red-600 mt-2"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+            <div>
+              <label className="block text-xs font-medium text-ash mb-1.5 tracking-wide">
+                Description
+              </label>
+              <input
+                type="text"
+                value={menu.description}
+                onChange={(e) => updateMenu({ description: e.target.value })}
+                placeholder="e.g. Available from 5pm – 10pm"
+                className={inputClass}
+              />
             </div>
-
-            <button
-              onClick={() => addItem(catIdx)}
-              className="mt-3 text-sm text-amber-700 hover:text-amber-900 font-medium"
-            >
-              + Add item
-            </button>
           </div>
-        ))}
-      </div>
+        </section>
 
-      <button
-        onClick={addCategory}
-        className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-amber-400 hover:text-amber-700 transition-colors text-sm font-medium mb-8"
-      >
-        + Add Category
-      </button>
+        {/* Categories */}
+        <div className="space-y-4 mb-4">
+          {menu.categories.map((cat, catIdx) => (
+            <section
+              key={catIdx}
+              className="bg-canvas border border-rim rounded-xl p-6"
+            >
+              {/* Category header */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-1 h-5 bg-gold rounded-full shrink-0" />
+                <input
+                  type="text"
+                  value={cat.name}
+                  onChange={(e) => updateCategory(catIdx, { name: e.target.value })}
+                  placeholder="Category name (e.g. Starters)"
+                  className="flex-1 bg-transparent border-b border-rim text-parchment font-medium text-base pb-1 focus:outline-none focus:border-gold transition-colors duration-150 placeholder:text-dust"
+                />
+                <button
+                  onClick={() => removeCategory(catIdx)}
+                  className="text-dust hover:text-ember text-sm transition-colors duration-150 ml-2"
+                >
+                  Remove
+                </button>
+              </div>
 
-      {/* Save button */}
-      <div className="flex items-center gap-4">
+              {/* Items */}
+              <div className="space-y-3">
+                {cat.items.map((item, itemIdx) => (
+                  <div key={itemIdx} className="flex gap-2 items-start">
+                    <div className="flex-1 grid grid-cols-[1fr_1fr_auto] gap-2">
+                      <input
+                        type="text"
+                        value={item.name}
+                        onChange={(e) =>
+                          updateItem(catIdx, itemIdx, { name: e.target.value })
+                        }
+                        placeholder="Item name"
+                        className={inputClass}
+                      />
+                      <input
+                        type="text"
+                        value={item.description}
+                        onChange={(e) =>
+                          updateItem(catIdx, itemIdx, { description: e.target.value })
+                        }
+                        placeholder="Description (optional)"
+                        className={inputClass}
+                      />
+                      <input
+                        type="number"
+                        value={item.price}
+                        onChange={(e) =>
+                          updateItem(catIdx, itemIdx, { price: e.target.value })
+                        }
+                        placeholder="0.00"
+                        min="0"
+                        step="0.01"
+                        className="w-24 bg-ink border border-rim rounded-lg px-3 py-2.5 text-sm text-gold placeholder:text-dust focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-colors duration-150"
+                      />
+                    </div>
+                    <button
+                      onClick={() => removeItem(catIdx, itemIdx)}
+                      className="text-dust hover:text-ember mt-3 text-lg leading-none transition-colors duration-150"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => addItem(catIdx)}
+                className="mt-4 text-xs tracking-wide text-gold hover:text-gilt font-medium transition-colors duration-150 flex items-center gap-1"
+              >
+                <span className="text-base leading-none">+</span> Add item
+              </button>
+            </section>
+          ))}
+        </div>
+
         <button
-          onClick={save}
-          disabled={saving}
-          className="bg-amber-900 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-amber-800 disabled:opacity-50 transition-colors"
+          onClick={addCategory}
+          className="w-full py-4 border border-dashed border-rim rounded-xl text-ash hover:border-gold/50 hover:text-gold transition-colors duration-200 text-sm font-medium mb-10"
         >
-          {saving ? "Saving…" : "Save Menu"}
+          + Add Category
         </button>
-        {saved && (
-          <span className="text-green-600 text-sm font-medium">Saved!</span>
+
+        {/* Save */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={save}
+            disabled={saving}
+            className="bg-gold text-ink px-7 py-2.5 rounded-lg text-sm font-semibold hover:bg-gilt disabled:opacity-40 transition-colors duration-150 flex items-center gap-2"
+          >
+            {saving ? (
+              <>
+                <div className="w-3.5 h-3.5 border border-ink/40 border-t-ink rounded-full animate-spin" />
+                Saving…
+              </>
+            ) : (
+              "Save Menu"
+            )}
+          </button>
+          {saved && (
+            <span className="text-sprout text-sm font-medium flex items-center gap-1.5">
+              <span>✓</span> Saved
+            </span>
+          )}
+        </div>
+
+        {/* QR Code */}
+        {mode === "edit" && menuUrl && (
+          <div className="mt-10 bg-canvas border border-rim rounded-xl p-6">
+            <h2 className="text-xs font-semibold tracking-[0.15em] uppercase text-ash mb-5">
+              QR Code
+            </h2>
+            <QRCodeDisplay url={menuUrl} menuName={menu.name} />
+          </div>
         )}
       </div>
-
-      {/* QR Code — only shown after save in edit mode */}
-      {mode === "edit" && menuUrl && (
-        <div className="mt-10 bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="font-semibold text-gray-700 mb-4">QR Code</h2>
-          <QRCodeDisplay url={menuUrl} menuName={menu.name} />
-        </div>
-      )}
     </div>
   );
 }
