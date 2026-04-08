@@ -8,8 +8,8 @@ export function slugify(text: string): string {
 }
 
 export function formatPrice(price: number | string): string {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-IE", {
     style: "currency",
-    currency: "USD",
+    currency: "EUR",
   }).format(Number(price));
 }
