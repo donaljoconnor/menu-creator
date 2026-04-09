@@ -96,7 +96,7 @@ export default async function MenuPage({ params }: { params: Promise<{ slug: str
           {m.categories.map((category, catIdx) => (
             <section
               key={category.id}
-              className={`menu-fade${catIdx > 0 ? "mt-16" : ""}`}
+              className={`menu-fade ${catIdx > 0 ? "mt-10" : ""}`}
               style={{ animationDelay: `${catIdx * 0.1 + 0.15}s` }}
             >
               {/* Category heading with marker-highlight treatment */}
