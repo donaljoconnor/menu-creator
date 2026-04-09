@@ -41,13 +41,13 @@ export default function QRCodeDisplay({ url, menuName }: Props) {
   }
 
   return (
-    <div className="flex items-start gap-6">
+    <div className="flex flex-col items-start gap-6 sm:flex-row">
       <div className="bg-lift border-rim shrink-0 rounded-xl border p-3">
         <canvas ref={canvasRef} className="rounded-lg" />
       </div>
-      <div className="flex flex-col gap-3 pt-1">
+      <div className="flex w-full flex-col gap-3 pt-1">
         <p className="text-dust font-mono text-xs leading-relaxed break-all">{url}</p>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={download}
             className="bg-lift border-rim text-ash hover:border-ash hover:text-parchment rounded-lg border px-3 py-1.5 text-xs transition-colors duration-150"
