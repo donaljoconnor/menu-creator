@@ -2,22 +2,14 @@ import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const menu = await prisma.menu.findUnique({ where: { slug } });
   if (!menu) return { title: "Menu Not Found" };
   return { title: menu.name };
 }
 
-export default async function MenuPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function MenuPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const menu = await prisma.menu.findUnique({
     where: { slug },
@@ -33,15 +25,14 @@ export default async function MenuPage({
   const m = menu!;
 
   return (
-    <div className="relative min-h-screen bg-cream text-page-ink">
+    <div className="bg-cream text-page-ink relative min-h-screen">
       {/* Dot grid texture */}
       <div
         aria-hidden
-        className="fixed inset-0 pointer-events-none"
+        className="pointer-events-none fixed inset-0"
         style={{
           zIndex: 0,
-          backgroundImage:
-            "radial-gradient(circle, #C9BFB0 1.5px, transparent 1.5px)",
+          backgroundImage: "radial-gradient(circle, #C9BFB0 1.5px, transparent 1.5px)",
           backgroundSize: "26px 26px",
           opacity: 0.55,
         }}
@@ -50,14 +41,14 @@ export default async function MenuPage({
       <div className="relative" style={{ zIndex: 1 }}>
         {/* ── Hero header ── */}
         <header
-          className="px-6 pt-10 pb-10 border-b-[3px] border-page-ink menu-fade"
+          className="border-page-ink menu-fade border-b-[3px] px-6 pt-10 pb-10"
           style={{ animationDelay: "0s" }}
         >
-          <div className="max-w-2xl mx-auto">
+          <div className="mx-auto max-w-2xl">
             {/* Rotated badge */}
             <div className="mb-5">
               <span
-                className="inline-block bg-punch text-cream text-[10px] font-bold tracking-[0.35em] uppercase px-4 py-2 select-none"
+                className="bg-punch text-cream inline-block px-4 py-2 text-[10px] font-bold tracking-[0.35em] uppercase select-none"
                 style={{
                   transform: "rotate(-2deg)",
                   fontFamily: "var(--font-sans)",
@@ -69,7 +60,7 @@ export default async function MenuPage({
             </div>
 
             <h1
-              className="font-extrabold text-page-ink leading-[0.88] tracking-tight"
+              className="text-page-ink leading-[0.88] font-extrabold tracking-tight"
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(2.8rem, 11vw, 6.5rem)",
@@ -80,7 +71,7 @@ export default async function MenuPage({
 
             {m.description && (
               <p
-                className="mt-5 text-base text-muted max-w-sm leading-relaxed font-medium"
+                className="text-muted mt-5 max-w-sm text-base leading-relaxed font-medium"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {m.description}
@@ -89,25 +80,23 @@ export default async function MenuPage({
 
             {/* Decorative colour strip */}
             <div className="mt-8 flex">
-              <div className="w-16 h-[3px] bg-punch" />
-              <div className="w-6 h-[3px] bg-lime" />
-              <div className="w-10 h-[3px] bg-border" />
+              <div className="bg-punch h-[3px] w-16" />
+              <div className="bg-lime h-[3px] w-6" />
+              <div className="bg-border h-[3px] w-10" />
             </div>
           </div>
         </header>
 
         {/* ── Menu content ── */}
-        <main className="max-w-2xl mx-auto px-6 py-12">
+        <main className="mx-auto max-w-2xl px-6 py-12">
           {m.categories.length === 0 && (
-            <p className="text-center text-muted py-12 font-medium">
-              This menu has no items yet.
-            </p>
+            <p className="text-muted py-12 text-center font-medium">This menu has no items yet.</p>
           )}
 
           {m.categories.map((category, catIdx) => (
             <section
               key={category.id}
-              className={`menu-fade${catIdx > 0 ? " mt-16" : ""}`}
+              className={`menu-fade${catIdx > 0 ? "mt-16" : ""}`}
               style={{ animationDelay: `${catIdx * 0.1 + 0.15}s` }}
             >
               {/* Category heading with marker-highlight treatment */}
@@ -115,8 +104,7 @@ export default async function MenuPage({
                 <h2
                   style={{
                     fontFamily: "var(--font-sans)",
-                    background:
-                      "linear-gradient(transparent 42%, rgba(197, 227, 50, 0.75) 42%)",
+                    background: "linear-gradient(transparent 42%, rgba(197, 227, 50, 0.75) 42%)",
                     display: "inline",
                     paddingRight: "6px",
                     fontSize: "0.7rem",
@@ -128,23 +116,23 @@ export default async function MenuPage({
                 >
                   {category.name}
                 </h2>
-                <div className="h-[2px] bg-page-ink mt-3" />
+                <div className="bg-page-ink mt-3 h-[2px]" />
               </div>
 
               {/* Items */}
               <ul className="space-y-7">
                 {category.items.map((item) => (
                   <li key={item.id} className="menu-item flex items-start justify-between gap-6">
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div
-                        className="font-bold text-page-ink text-xl leading-snug"
+                        className="text-page-ink text-xl leading-snug font-bold"
                         style={{ fontFamily: "var(--font-display)" }}
                       >
                         {item.name}
                       </div>
                       {item.description && (
                         <p
-                          className="text-sm text-muted mt-1 leading-relaxed"
+                          className="text-muted mt-1 text-sm leading-relaxed"
                           style={{ fontFamily: "var(--font-sans)" }}
                         >
                           {item.description}
@@ -152,7 +140,7 @@ export default async function MenuPage({
                       )}
                     </div>
                     <span
-                      className="font-extrabold text-punch text-base whitespace-nowrap tabular-nums shrink-0 mt-0.5"
+                      className="text-punch mt-0.5 shrink-0 text-base font-extrabold whitespace-nowrap tabular-nums"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
                       {formatPrice(item.price.toString())}
@@ -165,9 +153,9 @@ export default async function MenuPage({
 
           {/* Footer mark */}
           <div className="mt-20 flex items-center gap-3">
-            <div className="flex-1 h-[2px] bg-page-ink" />
-            <div className="w-3 h-3 bg-punch rotate-45" />
-            <div className="flex-1 h-[2px] bg-page-ink" />
+            <div className="bg-page-ink h-[2px] flex-1" />
+            <div className="bg-punch h-3 w-3 rotate-45" />
+            <div className="bg-page-ink h-[2px] flex-1" />
           </div>
         </main>
       </div>

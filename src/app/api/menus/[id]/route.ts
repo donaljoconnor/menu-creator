@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const menu = await prisma.menu.findUnique({
     where: { id },
@@ -20,10 +17,7 @@ export async function GET(
   return NextResponse.json(menu);
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json();
   const { name, description, categories } = body;
@@ -55,7 +49,10 @@ export async function PUT(
       description: description?.trim() || null,
       categories: {
         create: (categories ?? []).map(
-          (cat: { name: string; items: { name: string; description?: string; price: number }[] }, catIdx: number) => ({
+          (
+            cat: { name: string; items: { name: string; description?: string; price: number }[] },
+            catIdx: number
+          ) => ({
             name: cat.name,
             order: catIdx,
             items: {
@@ -83,10 +80,7 @@ export async function PUT(
   return NextResponse.json(menu);
 }
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   await prisma.menu.delete({ where: { id } });
   return NextResponse.json({ success: true });

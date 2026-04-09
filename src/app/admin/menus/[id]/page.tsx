@@ -2,11 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import MenuEditor from "@/components/MenuEditor";
 
-export default async function EditMenuPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditMenuPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const menu = await prisma.menu.findUnique({
     where: { id },
@@ -39,5 +35,4 @@ export default async function EditMenuPage({
   };
 
   return <MenuEditor mode="edit" initial={initial} />;
-
 }

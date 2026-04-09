@@ -41,16 +41,16 @@ export default function QRCodeDisplay({ url, menuName }: Props) {
   }
 
   return (
-    <div className="flex items-start gap-6">
-      <div className="bg-lift border border-rim rounded-xl p-3 shrink-0">
+    <div className="flex flex-col items-start gap-6 sm:flex-row">
+      <div className="bg-lift border-rim shrink-0 rounded-xl border p-3">
         <canvas ref={canvasRef} className="rounded-lg" />
       </div>
-      <div className="flex flex-col gap-3 pt-1">
-        <p className="text-xs text-dust font-mono break-all leading-relaxed">{url}</p>
-        <div className="flex gap-2">
+      <div className="flex w-full flex-col gap-3 pt-1">
+        <p className="text-dust font-mono text-xs leading-relaxed break-all">{url}</p>
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={download}
-            className="text-xs bg-lift border border-rim text-ash hover:border-ash hover:text-parchment px-3 py-1.5 rounded-lg transition-colors duration-150"
+            className="bg-lift border-rim text-ash hover:border-ash hover:text-parchment rounded-lg border px-3 py-1.5 text-xs transition-colors duration-150"
           >
             Download PNG
           </button>
@@ -58,7 +58,7 @@ export default function QRCodeDisplay({ url, menuName }: Props) {
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="text-xs bg-gold text-ink font-semibold hover:bg-gilt px-3 py-1.5 rounded-lg transition-colors duration-150"
+            className="bg-gold text-ink hover:bg-gilt rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors duration-150"
           >
             Open Menu ↗
           </a>

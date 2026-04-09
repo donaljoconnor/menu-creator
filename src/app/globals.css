@@ -5,34 +5,34 @@
   --font-display: var(--font-display);
 
   /* ── Legacy dark palette (admin) ── */
-  --color-ink: #0C0A08;
+  --color-ink: #0c0a08;
   --color-canvas: #161210;
-  --color-lift: #1E1916;
-  --color-rim: #2A2218;
-  --color-parchment: #EDE6D8;
-  --color-ash: #8A7B6C;
+  --color-lift: #1e1916;
+  --color-rim: #2a2218;
+  --color-parchment: #ede6d8;
+  --color-ash: #8a7b6c;
   --color-dust: #524840;
-  --color-gold: #C8914A;
-  --color-gilt: #E0B87A;
-  --color-ember: #B85545;
-  --color-ember-dim: #2A1512;
-  --color-sprout: #5A8855;
+  --color-gold: #c8914a;
+  --color-gilt: #e0b87a;
+  --color-ember: #b85545;
+  --color-ember-dim: #2a1512;
+  --color-sprout: #5a8855;
   --color-sprout-dim: #122212;
 
   /* ── Hipster menu palette ── */
-  --color-cream: #FAF7F0;
+  --color-cream: #faf7f0;
   --color-page-ink: #111111;
-  --color-punch: #FF4D1C;
-  --color-lime: #C5E332;
-  --color-sage: #4E8B61;
-  --color-warm: #EEE5D0;
-  --color-border: #C9BFB0;
-  --color-muted: #7A6F62;
+  --color-punch: #ff4d1c;
+  --color-lime: #c5e332;
+  --color-sage: #4e8b61;
+  --color-warm: #eee5d0;
+  --color-border: #c9bfb0;
+  --color-muted: #7a6f62;
 }
 
 :root {
-  --background: #0C0A08;
-  --foreground: #EDE6D8;
+  --background: #0c0a08;
+  --foreground: #ede6d8;
 }
 
 body {
